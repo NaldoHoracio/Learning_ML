@@ -76,29 +76,6 @@ data_al = pd.concat(frames)
 data_al['NT_GER'] = data_al['NT_GER'].str.replace(',','.')
 data_al['NT_GER'] = data_al['NT_GER'].astype(float)
 
-#data_al['NT_FG'] = data_al['NT_FG'].str.replace(',','.')
-#data_al['NT_FG'] = data_al['NT_FG'].astype(float)
-
-#data_al['NT_OBJ_FG'] = data_al['NT_OBJ_FG'].str.replace(',','.')
-#data_al['NT_OBJ_FG'] = data_al['NT_OBJ_FG'].astype(float)
-
-#data_al['NT_DIS_FG'] = data_al['NT_DIS_FG'].str.replace(',','.')
-#data_al['NT_DIS_FG'] = data_al['NT_DIS_FG'].astype(float)
-
-#data_al['NT_CE'] = data_al['NT_CE'].str.replace(',','.')
-#data_al['NT_CE'] = data_al['NT_CE'].astype(float)
-
-#data_al['NT_OBJ_CE'] = data_al['NT_OBJ_CE'].str.replace(',','.')
-#data_al['NT_OBJ_CE'] = data_al['NT_OBJ_CE'].astype(float)
-
-#data_al['NT_DIS_CE'] = data_al['NT_DIS_CE'].str.replace(',','.')
-#data_al['NT_DIS_CE'] = data_al['NT_DIS_CE'].astype(float)
-
-# 2.2 - Enriquecimento
-# Substituindo valores nan pela média
-#data_al_median = data_al.iloc[:,0:16].median()
-#data_al_media = data_al.iloc[:,0:16].mean()
-#data_al_median = data_al.iloc[:,0:16].median()
 data_al_media = data_al['NT_GER'].mean()
 
 #%% AJUSTE
@@ -110,15 +87,11 @@ data_al['NT_GER'] = data_al['NT_GER'].replace([0],data_al_media)
 
 describe_al = data_al.describe()
 
-#print('Descrição para as colunas: ', describe_al)
-#print(describe_al.columns)
-
 #% 3 - Transformação
 
 # Convertendo os labels de predição para arrays numpy
 labels_al = np.array(data_al['NT_GER'])
-#print('Media das labels: %.2f' %(labels_al.mean()) )
-#
+
 # Removendo as features de notas
 data_al = data_al.drop(['NT_GER'], axis = 1)
 '''
@@ -242,15 +215,7 @@ print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
 print('Accuracy MSE: ', round(np.mean(accuracy_mse), 4))
 print('Accuracy MAE: ', round(np.mean(accuracy_mae), 4))
 print("Parameters: ", dt_al.get_params())
-#print('Accuracy LS: ', round(np.average(scores_al_ls), 2), "%.")
 
-#importance_fields_al_rf_t = importance_fields_al_rf/n_cv
-#importance_fields_al_dt_t = importance_fields_aux_al_dt #/n_cv
-#importance_fields_al_ls_t = importance_fields_al_ls/n_cv
-
-#print('Total RF: ', round(np.sum(importance_fields_al_rf_t),2));
-#print('Total DT: ', round(importance_fields_al_dt, 2));
-#print('Total LS: ', round(np.sum(importance_fields_al_ls_t),2));
 importance_fields_al_dt_t = importance_fields_al_dt
 
 #%% VIMP
