@@ -15,111 +15,111 @@ import datetime as dt
 import matplotlib.pyplot as plt
 
 # Leitura
-path_al2014 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2014.csv'
-path_al2015 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2015.csv'
-path_al2016 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2016.csv'
-path_al2017 = 'C:/Users/edvon/Google Drive/UFAL/TCC/CODES/tcc_codes/read_csv_files/AL_data.csv'
-path_al2018 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2018.csv'
+path_br2014 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2014.csv';
+path_br2015 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2015.csv';
+path_br2016 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2016.csv';
+path_br2017 = 'C:/Users/edvon/Google Drive/UFAL/TCC/CODES/tcc_codes/read_csv_files/BR_data.csv';
+path_br2018 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2018.csv';
 
 
-data_al2014 = pd.read_csv(path_al2014)
-data_al2015 = pd.read_csv(path_al2015)
-data_al2016 = pd.read_csv(path_al2016)
-data_al2017 = pd.read_csv(path_al2017)
-data_al2018 = pd.read_csv(path_al2018)
+data_br2014 = pd.read_csv(path_br2014)
+data_br2015 = pd.read_csv(path_br2015)
+data_br2016 = pd.read_csv(path_br2016)
+data_br2017 = pd.read_csv(path_br2017)
+data_br2018 = pd.read_csv(path_br2018)
 
 
 #%% LIMPANDO
 
 #% 2.1 - Limpeza
 
-del data_al2014['Unnamed: 0']
-del data_al2015['Unnamed: 0']
-del data_al2016['Unnamed: 0']
-del data_al2017['Unnamed: 0']
-del data_al2018['Unnamed: 0']
+del data_br2014['Unnamed: 0']
+del data_br2015['Unnamed: 0']
+del data_br2016['Unnamed: 0']
+del data_br2017['Unnamed: 0']
+del data_br2018['Unnamed: 0']
 
 # Escolhendo apenas as colunas de interesse
-data_al2014 = data_al2014.loc[:,'NT_GER':'QE_I26']
-data_al2015 = data_al2015.loc[:,'NT_GER':'QE_I26']
-data_al2016 = data_al2016.loc[:,'NT_GER':'QE_I26']
-data_al2017 = data_al2017.loc[:,'NT_GER':'QE_I26']
-data_al2018 = data_al2018.loc[:,'NT_GER':'QE_I26']
+data_br2014 = data_br2014.loc[:,'NT_GER':'QE_I26']
+data_br2015 = data_br2015.loc[:,'NT_GER':'QE_I26']
+data_br2016 = data_br2016.loc[:,'NT_GER':'QE_I26']
+data_br2017 = data_br2017.loc[:,'NT_GER':'QE_I26']
+data_br2018 = data_br2018.loc[:,'NT_GER':'QE_I26']
 
-data_al2014 = data_al2014.drop(data_al2014.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_al2015 = data_al2015.drop(data_al2015.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_al2016 = data_al2016.drop(data_al2016.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_al2017 = data_al2017.drop(data_al2017.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_al2018 = data_al2018.drop(data_al2018.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+data_br2014 = data_br2014.drop(data_br2014.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+data_br2015 = data_br2015.drop(data_br2015.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+data_br2016 = data_br2016.drop(data_br2016.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+data_br2017 = data_br2017.drop(data_br2017.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+data_br2018 = data_br2018.drop(data_br2018.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
 
-data_al2014 = data_al2014.drop(data_al2014.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_al2015 = data_al2015.drop(data_al2015.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_al2016 = data_al2016.drop(data_al2016.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_al2017 = data_al2017.drop(data_al2017.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_al2018 = data_al2018.drop(data_al2018.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+data_br2014 = data_br2014.drop(data_br2014.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+data_br2015 = data_br2015.drop(data_br2015.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+data_br2016 = data_br2016.drop(data_br2016.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+data_br2017 = data_br2017.drop(data_br2017.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+data_br2018 = data_br2018.drop(data_br2018.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
 
-#%% MERGE NOS DADOS: data al
+#%% MERGE NOS DADOS: data br
 # Observando os dados
-#print('O formato dos dados é: ', features_al.shape)
+#print('O formato dos dados é: ', features_br.shape)
 
-#describe_al = features_al.describe()
+#describe_br = features_br.describe()
 
-#print('Descrição para as colunas: ', describe_al)
-#print(describe_al.columns)
-frames = [data_al2014, data_al2015, data_al2016, data_al2017, data_al2018]
-data_al = pd.concat(frames)
+#print('Descrição para as colunas: ', describe_br)
+#print(describe_br.columns)
+frames = [data_br2014, data_br2015, data_br2016, data_br2017, data_br2018];
+data_br = pd.concat(frames);
 
 #%% AJUSTANDO
 
 # Números que são strings para float
 # Colunas NT_GER a NT_DIS_FG ^ NT_CE a NT_DIS_CE
-data_al['NT_GER'] = data_al['NT_GER'].str.replace(',','.')
-data_al['NT_GER'] = data_al['NT_GER'].astype(float)
+data_br['NT_GER'] = data_br['NT_GER'].str.replace(',','.')
+data_br['NT_GER'] = data_br['NT_GER'].astype(float)
 
-data_al_media = data_al['NT_GER'].mean()
+data_br_media = round(data_br['NT_GER'].mean(),2)
 
 #%% AJUSTE
-#data_al.iloc[:,0:16] = data_al.iloc[:,0:16].fillna(data_al.iloc[:,0:16].mean())
-data_al['NT_GER'] = data_al['NT_GER'].fillna(data_al_media)
-data_al['NT_GER'] = data_al['NT_GER'].replace([0],data_al_media)
+#data_br.iloc[:,0:16] = data_br.iloc[:,0:16].fillna(data_br.iloc[:,0:16].mean())
+data_br['NT_GER'] = data_br['NT_GER'].fillna(data_br_media)
+data_br['NT_GER'] = data_br['NT_GER'].replace([0],data_br_media)
 # Observando os dados
-#print('O formato dos dados é: ', features_al.shape)
+#print('O formato dos dados é: ', features_br.shape)
 
-describe_al = data_al.describe()
+describe_br = data_br.describe()
 
 #% 3 - Transformação
 
 # Convertendo os labels de predição para arrays numpy
-labels_al = np.array(data_al['NT_GER'])
+labels_br = np.array(data_br['NT_GER'])
 
 # Removendo as features de notas
-data_al = data_al.drop(['NT_GER'], axis = 1)
+data_br = data_br.drop(['NT_GER'], axis = 1)
 '''
-data_al = data_al.drop(['NT_GER','NT_FG','NT_OBJ_FG','NT_DIS_FG',
+data_br = data_br.drop(['NT_GER','NT_FG','NT_OBJ_FG','NT_DIS_FG',
                                'NT_FG_D1','NT_FG_D1_PT','NT_FG_D1_CT',
                                'NT_FG_D2','NT_FG_D2_PT','NT_FG_D2_CT',
                                'NT_CE','NT_OBJ_CE','NT_DIS_CE',
                                'NT_CE_D1','NT_CE_D2','NT_CE_D3'], axis = 1)
 '''
-# Salvando e convertendo
-# Salvando os nomes das colunas (features) com os dados para uso posterior antes de codificar
-features_al_list = list(data_al.columns)
+# Sbrvando e convertendo
+# Sbrvando os nomes das colunas (features) com os dados para uso posterior antes de codificar
+features_br_list = list(data_br.columns)
 
 
 # One hot encoding - QE_I01 a QE_I26
-features_al = pd.get_dummies(data=data_al, columns=['QE_I01','QE_I02','QE_I03','QE_I04',
+features_br = pd.get_dummies(data=data_br, columns=['QE_I01','QE_I02','QE_I03','QE_I04',
                                                         'QE_I05','QE_I06','QE_I07','QE_I08',
                                                         'QE_I09','QE_I10','QE_I11','QE_I12',
                                                         'QE_I13','QE_I14','QE_I15','QE_I16',
                                                         'QE_I17','QE_I18','QE_I19','QE_I20',
                                                         'QE_I21','QE_I22','QE_I23','QE_I24',
                                                         'QE_I25','QE_I26'])
-# Salvando os nomes das colunas (features) com os dados para uso posterior
+# Sbrvando os nomes das colunas (features) com os dados para uso posterior
 # depois de codificar
-features_al_list_oh = list(features_al.columns)
+features_br_list_oh = list(features_br.columns)
 #
 # Convertendo para numpy
-features_al = np.array(features_al)
+features_br = np.array(features_br)
 
 #%% TEMPO E AJUSTE
 # Tempo de execução
@@ -131,7 +131,7 @@ def seconds_transform(seconds_time):
   #print(seconds)
   print("Time: ", (hours), "h ", (minutes), "min ", round(seconds,2), " s")
 
-labels_al = np.reshape(labels_al, (-1,1))
+labels_br = np.reshape(labels_br, (-1,1))
 
 
 #%% SEPARANDO OS DADOS
@@ -144,88 +144,87 @@ from sklearn import linear_model
 from sklearn.model_selection import cross_val_score
 import time
 
-
-train_features_al, test_features_al, train_labels_al, test_labels_al = train_test_split(features_al, labels_al, 
+train_features_br, test_features_br, train_labels_br, test_labels_br = train_test_split(features_br, labels_br, 
                                                    test_size = 0.333, random_state = 42)
 
 #%% CV: Cross Val Score
-n_cv = int(10)
+n_cv = int(10);
 
-scores_al_rf = []
-scores_al_dt = []
-scores_al_ls = []
+#scores_br_rf = []
+scores_br_dt = [];
+#scores_br_ls = []
 
-importance_fields_al_rf = 0.0
-importance_fields_aux_al_rf = []
+#importance_fields_br_rf = 0.0
+#importance_fields_aux_br_rf = []
 
-importance_fields_al_dt = 0.0
-importance_fields_aux_al_dt = []
+importance_fields_br_dt = 0.0;
+importance_fields_aux_br_dt = [];
 
-importance_fields_al_ls = 0.0
-importance_fields_aux_al_ls = []
+#importance_fields_br_ls = 0.0
+#importance_fields_aux_br_ls = []
 
-start_time_dt_al = time.time() # Time start
+start_time_dt_br = time.time() # Time start
 
 # min_samples_split = 320; min_samples_leaf = 200; max_features= log2
 
-dt_al = DecisionTreeRegressor(min_samples_split=320, min_samples_leaf=200)
+dt_br = DecisionTreeRegressor(min_samples_split=320, min_samples_leaf=200)
 
-accuracy_cv = cross_val_score(dt_al, train_features_al, train_labels_al, cv=n_cv)
+accuracy_cv = cross_val_score(dt_br, train_features_br, train_labels_br, cv=n_cv)
 
-dt_al.fit(train_features_al, train_labels_al)
+dt_br.fit(train_features_br, train_labels_br)
 
-importance_fields_al_dt = dt_al.feature_importances_
+importance_fields_br_dt = dt_br.feature_importances_
 
-seconds_dt_al = (time.time() - start_time_dt_al) # Time end
+seconds_dt_br = (time.time() - start_time_dt_br) # Time end
 
-predict_dt = dt_al.predict(test_features_al)
+predict_dt = dt_br.predict(test_features_br)
 
-seconds_transform(seconds_dt_al)
-#print("Error: ", round(error_al,2))
+seconds_transform(seconds_dt_br)
+#print("Error: ", round(error_br,2))
 
-accuracy_dt = dt_al.score(test_features_al, test_labels_al)
-accuracy_r2 = r2_score(test_labels_al, predict_dt)
-accuracy_mse = mean_squared_error(test_labels_al, predict_dt)
-accuracy_mae = mean_absolute_error(test_labels_al, predict_dt)
+accuracy_dt = dt_br.score(test_features_br, test_labels_br)
 
-#%% Força bruta
-mean_ = np.mean(test_labels_al)
-mean_err = np.full((9608,1), mean_, dtype=float)
-u = ((labels_al-predict_dt) ** 2).sum()
-v = ((labels_al - labels_al.mean())**2).sum()
-num_r2 = np.subtract(test_labels_al, predict_dt)
-den_r2 = np.subtract(test_labels_al, mean_err)
+accuracy_r2 = r2_score(test_labels_br, predict_dt)
 
-num_u = u;
-den_v = v;
+accuracy_mse = mean_squared_error(test_labels_br, predict_dt)
+
+accuracy_mae = mean_absolute_error(test_labels_br, predict_dt)
+
+accuracy_mape = ((abs(test_labels_br - predict_dt)/test_labels_br) * 100)
+
+#%% R2 Força bruta
+mean_test_labels_br = round(np.mean(test_labels_br),2)
+y_mean = np.full((9608,1), mean_test_labels_br, dtype=float)
+
 #%% Ao quadrado
-num_r2q = np.power(num_r2, 2)
-den_r2q = np.power(den_r2, 2)
+#num_r2q = np.power(num_r2, 2)
+#den_r2q = np.power(den_r2, 2)
 
-r2_manual = 1 - (num_r2q.sum()/den_r2q.sum())
-r2_uv = 1 - (v/u)
-print("R2 força bruta: ", round(r2_manual, 2))
-print("R2 força bruta UV: ", round(r2_uv, 8))
+#r2_manual = 1 - (num_r2q.sum()/den_r2q.sum())
+#r2_uv = 1 - (v/u)
+#print("R2 força bruta: ", round(r2_manual, 2))
+#print("R2 força bruta UV: ", round(r2_uv, 8))
 
-#%% ACURÁCIA AL
-#print('Accuracy RF: ', round(np.average(scores_al_rf), 2), "%.")
+#%% ACURÁCIA br
+#print('Accuracy RF: ', round(np.average(scores_br_rf), 2), "%.")
 print('Accuracy DT: ', round(np.mean(accuracy_dt), 4))
 print('Accuracy R2: ', round(np.mean(accuracy_r2), 4))
 print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
 print('Accuracy MSE: ', round(np.mean(accuracy_mse), 4))
 print('Accuracy MAE: ', round(np.mean(accuracy_mae), 4))
-print("Parameters: ", dt_al.get_params())
+print('Accuracy MAPE: ', round(np.mean(accuracy_mape.mean()), 4))
+print("Parameters: ", dt_br.get_params())
 
-importance_fields_al_dt_t = importance_fields_al_dt
+importance_fields_br_dt_t = importance_fields_br_dt
 
 #%% VIMP
 # Lista de tupla com as variáveis de importância - Árvore de decisão
-feature_importances_al_dt = \
+feature_importances_br_dt = \
 [(feature, round(importance, 8)) \
- for feature, importance in zip(features_al_list_oh, importance_fields_al_dt)]
+ for feature, importance in zip(features_br_list_oh, importance_fields_br_dt)]
 
 # Print out the feature and importances
-# [print('Variable DT: {:20} Importance DT: {}'.format(*pair)) for pair in feature_importances_al_dt];
+# [print('Variable DT: {:20} Importance DT: {}'.format(*pair)) for pair in feature_importances_br_dt];
 
 #%%# GUARDANDO OS VALORES DE VIMP
 I01_AL_DT = importance_fields_al_dt_t[0:5]; I02_AL_DT = importance_fields_al_dt_t[5:11]; 
