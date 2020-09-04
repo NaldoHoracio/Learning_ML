@@ -173,7 +173,7 @@ seconds_transform(sec_rf_al_cv)
 
 #%% LASSO
 
-ls_al = linear_model.Lasso(alpha=0.005, positive=True)
+ls_al = linear_model.Lasso(alpha=0.005, positive=True, random_state=42)
 
 time_ls_al_cv = time.time()
 accuracy_ls_cv = cross_val_score(ls_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
@@ -184,7 +184,7 @@ seconds_transform(sec_ls_al_cv)
 
 
 
-#%% Treino dos dados
+#%% Treino dos dados - DT_AL
 
 kf_cv_al = KFold(n_splits=n_cv, random_state=42, shuffle=True)
 
@@ -208,7 +208,7 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     predictions_al_dt = dt_al.predict(test_features_al)
     
-    accuracy_dt = dt_al.score(test_features_al, test_labels_al)
+    accuracy_al_dt = dt_al.score(test_features_al, test_labels_al)
 
     accuracy_mae_al_dt = mean_absolute_error(test_labels_al, predictions_al_dt)
     
@@ -221,15 +221,15 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     # Método 2 - Random Forest
     
-    rf_al.fit(train_features_al, train_labels_al)
+    #rf_al.fit(train_features_al, train_labels_al)
     
-    predictions_al_rf = dt_al.predict(test_features_al)
+    #predictions_al_rf = dt_al.predict(test_features_al)
     
-    accuracy_rf = rf_al.score(test_features_al, test_labels_al)
+    #accuracy_rf_al = rf_al.score(test_features_al, test_labels_al)
 
-    accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
+    #accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
     
-    accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
+    #accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
     
     # Método 3 - Lasso Regression
     
@@ -263,10 +263,10 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     # Append em cada valor médio
     #scores_al_rf.append(accuracy_al_rf)
-    #scores_al_dt.append(accuracy_al_dt)
+    scores_al_dt.append(accuracy_al_dt)
     #scores_al_dt_r2.append(accuracy_r2)
-    #scores_al_dt_mae.append(accuracy_mae)
-    #scores_al_dt_mse.append(accuracy_mse)
+    scores_al_dt_mae.append(accuracy_mae_al_dt)
+    scores_al_dt_mse.append(accuracy_mse_al_dt)
     #scores_al_dt_mape.append(accuracy_mape)
     #scores_al_ls.append(accuracy_al_ls)
 
@@ -279,11 +279,11 @@ seconds_transform(sec_dt_al)
 
 #%% ACURÁCIA AL
 #print('Accuracy RF: ', round(np.average(scores_al_rf), 2), "%.")
-print('Accuracy DT: ', round(np.mean(scores_al_dt), 4))
+print('Accuracy AL DT: ', round(np.mean(scores_al_dt), 4))
 #print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
-print('Accuracy R2: ', round(np.mean(accuracy_r2), 4))
-print('Accuracy MAE: ', round(np.mean(accuracy_mae), 4))
-print('Accuracy MSE: ', round(np.mean(accuracy_mse), 4))
+#print('Accuracy R2: ', round(np.mean(accuracy_r2), 4))
+print('Accuracy MAE AL DT: ', round(np.mean(accuracy_mae_al_dt), 4))
+print('Accuracy MSE AL DT: ', round(np.mean(accuracy_mse_al_dt), 4))
 #print('Accuracy MAPE: ', round(np.mean(accuracy_mape.mean()), 4))
 #print("Parameters: ", dt_al.get_params())
 
@@ -298,21 +298,21 @@ scores_al_dt_mape_f = [];
     
 predictions_al_dt = dt_al.predict(test_x_al)
     
-accuracy_dt_f = dt_al.score(test_x_al, test_y_al)
+accuracy_al_dt_f = dt_al.score(test_x_al, test_y_al)
 
-accuracy_mae_f = mean_absolute_error(test_y_al, predictions_al_dt)
+accuracy_mae_al_dt_f = mean_absolute_error(test_y_al, predictions_al_dt)
     
-accuracy_mse_f = mean_squared_error(test_y_al, predictions_al_dt)
+accuracy_mse_al_dt_f = mean_squared_error(test_y_al, predictions_al_dt)
     
-importance_fields_al_dt_t = dt_al.feature_importances_
+importance_fields_al_dt_t = importance_fields_al_dt/n_cv
 
 print('Total DT: ', round(np.sum(importance_fields_al_dt_t),2));
 
 #%% Avaliando o modelo
-print('Final Accuracy DT: ', round(accuracy_dt_f, 4))
-print('Final Accuracy R2: ', round(accuracy_r2_f, 4))
-print('Final Accuracy MAE: ', round(accuracy_mae_f, 4))
-print('Final Accuracy MSE: ', round(accuracy_mse_f, 4))
+print('Final Accuracy AL DT: ', round(accuracy_al_dt_f, 4))
+#print('Final Accuracy AL R2: ', round(accuracy_r2_f, 4))
+print('Final Accuracy MAE AL: ', round(accuracy_mae_al_dt_f, 4))
+print('Final Accuracy MSE AL: ', round(accuracy_mse_al_dt_f, 4))
 
 #%% VIMP
 # Lista de tupla com as variáveis de importância - Árvore de decisão
@@ -398,3 +398,6 @@ df_vimp_al_dt = pd.DataFrame(features_vimp_al_dt, columns=['categoria','valor'])
 #%% Ordenando os valores
 
 df_vimp_al_dt = df_vimp_al_dt.sort_values(by='valor', ascending=False)
+
+print("Valores ordenados: ")
+print(df_vimp_al_dt)
