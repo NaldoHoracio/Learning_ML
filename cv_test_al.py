@@ -16,20 +16,21 @@ import matplotlib.pyplot as plt
 
 
 # Leitura
-path_al2014 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2014.csv';
-path_al2015 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2015.csv';
-path_al2016 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2016.csv';
-path_al2017 = 'C:/Users/edvon/Google Drive/UFAL/TCC/CODES/tcc_codes/read_csv_files/AL_data.csv';
-path_al2018 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/AL_2018.csv';
+#path_al2014 = Path("/data/")
+#path_al2014 = Path(__file__).parent / "../data/AL_2014.csv";
+#path_al2015 = Path(__file__).parent / "../data/AL_2015.csv";
+#path_al2016 = Path(__file__).parent / "../data/AL_2016.csv";
+#path_al2017 = Path(__file__).parent / "../data/AL_data.csv";
+#path_al2018 = Path(__file__).parent / "../data/AL_2018.csv";
 
+data_al2014 = pd.read_csv(r'data/AL_2014.csv')
+#data_al2014 = pd.read_csv("/data/AL_2014.csv")
+#data_al2015 = pd.read_csv(path_al2015)
+#data_al2016 = pd.read_csv(path_al2016)
+#data_al2017 = pd.read_csv(path_al2017)
+#data_al2018 = pd.read_csv(path_al2018)
 
-data_al2014 = pd.read_csv(path_al2014)
-data_al2015 = pd.read_csv(path_al2015)
-data_al2016 = pd.read_csv(path_al2016)
-data_al2017 = pd.read_csv(path_al2017)
-data_al2018 = pd.read_csv(path_al2018)
-
-# Função pré-processing
+#%% Função pré-processing
 
 def pre_processing_set_al(data_al2014, data_al2015, data_al2016, data_al2017, data_al2018):
     #% 2.1 - Limpeza
@@ -124,36 +125,76 @@ from sklearn.compose import TransformedTargetRegressor
 from sklearn.preprocessing import QuantileTransformer
 import time
 
-train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, labels_al, test_size=0.3, random_state=42)
+#train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, labels_al, test_size=0.0, random_state=42)
+
+train_x_al = np.array(features_al)
+train_y_al = np.array(labels_al)
 
 #%% CV: Cross Val Score
-n_cv = int(35);
+n_cv = int(7);
 
 scores_al_dt = [];
-scores_al_dt_r2 = [];
 scores_al_dt_mae = [];
 scores_al_dt_mse = [];
-scores_al_dt_mape = [];
-#scores_al_rf = []
-#scores_al_ls = []
+#scores_al_dt_mape = [];
 
-#importance_fields_al_rf = 0.0
-#importance_fields_aux_al_rf = []
+scores_al_fr = [];
+scores_al_rf_mae = [];
+scores_al_rf_mse = [];
+#scores_al_rf_mape = [];
+
+scores_al_ls = [];
+scores_al_ls_mae = [];
+scores_al_ls_mse = [];
+scores_al_ls_mape = [];
 
 importance_fields_al_dt = 0.0;
 importance_fields_aux_al_dt = [];
 
+#importance_fields_al_rf = 0.0
+#importance_fields_aux_al_rf = []
+
 #importance_fields_al_ls = 0.0
 #importance_fields_aux_al_ls = []
 
-time_dt_al_cv = time.time() # Time start CV
+#%% Árvore de decisão
 
-# min_samples_split = 320; min_samples_leaf = 200; max_features= log2
 dt_al = DecisionTreeRegressor(min_samples_split=320, min_samples_leaf=200, random_state=42)
 
-accuracy_cv = cross_val_score(dt_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
+time_dt_al_cv = time.time() # Time start DT CV
+# min_samples_split = 320; min_samples_leaf = 200; max_features= log2
+accuracy_dt_cv = cross_val_score(dt_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
+sec_dt_al_cv = (time.time() - time_dt_al_cv) # Time end DT CV
 
-sec_dt_al_cv = (time.time() - time_dt_al_cv) # Time end CV
+print('Accuracy DT CV: ', round(np.mean(accuracy_dt_cv), 4))
+seconds_transform(sec_dt_al_cv)
+
+#%% Floresta aleatória
+
+rf_al = RandomForestRegressor(n_estimators=1000, random_state=42)
+
+time_rf_al_cv = time.time()
+accuracy_rf_cv = cross_val_score(rf_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
+#
+sec_rf_al_cv = (time.time() - time_rf_al_cv)
+
+print('Accuracy RF CV: ', round(np.mean(accuracy_rf_cv), 4))
+seconds_transform(sec_rf_al_cv)
+
+#%% LASSO
+
+ls_al = linear_model.Lasso(alpha=0.005)
+
+time_ls_al_cv = time.time()
+accuracy_ls_cv = cross_val_score(ls_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
+sec_ls_al_cv = (time.time() - time_ls_al_cv)
+
+print('Accuracy LS CV: ', round(np.mean(accuracy_ls_cv), 4))
+seconds_transform(sec_ls_al_cv)
+
+
+
+#%% Treino dos dados
 
 kf_cv_al = KFold(n_splits=n_cv, random_state=42, shuffle=True)
 
@@ -226,7 +267,7 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     # Append em cada valor médio
     #scores_al_rf.append(accuracy_al_rf)
     scores_al_dt.append(accuracy_dt)
-    scores_al_dt_r2.append(accuracy_r2)
+    #scores_al_dt_r2.append(accuracy_r2)
     scores_al_dt_mae.append(accuracy_mae)
     scores_al_dt_mse.append(accuracy_mse)
     #scores_al_dt_mape.append(accuracy_mape)
@@ -242,7 +283,7 @@ seconds_transform(sec_dt_al)
 #%% ACURÁCIA AL
 #print('Accuracy RF: ', round(np.average(scores_al_rf), 2), "%.")
 print('Accuracy DT: ', round(np.mean(scores_al_dt), 4))
-print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
+#print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
 print('Accuracy R2: ', round(np.mean(accuracy_r2), 4))
 print('Accuracy MAE: ', round(np.mean(accuracy_mae), 4))
 print('Accuracy MSE: ', round(np.mean(accuracy_mse), 4))
