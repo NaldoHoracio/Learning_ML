@@ -14,21 +14,11 @@ import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
 
-
-# Leitura
-#path_al2014 = Path("/data/")
-#path_al2014 = Path(__file__).parent / "../data/AL_2014.csv";
-#path_al2015 = Path(__file__).parent / "../data/AL_2015.csv";
-#path_al2016 = Path(__file__).parent / "../data/AL_2016.csv";
-#path_al2017 = Path(__file__).parent / "../data/AL_data.csv";
-#path_al2018 = Path(__file__).parent / "../data/AL_2018.csv";
-
 data_al2014 = pd.read_csv(r'data/AL_2014.csv')
-#data_al2014 = pd.read_csv("/data/AL_2014.csv")
-#data_al2015 = pd.read_csv(path_al2015)
-#data_al2016 = pd.read_csv(path_al2016)
-#data_al2017 = pd.read_csv(path_al2017)
-#data_al2018 = pd.read_csv(path_al2018)
+data_al2015 = pd.read_csv(r'data/AL_2015.csv')
+data_al2016 = pd.read_csv(r'data/AL_2016.csv')
+data_al2017 = pd.read_csv(r'data/AL_2017.csv')
+data_al2018 = pd.read_csv(r'data/AL_2018.csv')
 
 #%% Função pré-processing
 
@@ -125,13 +115,13 @@ from sklearn.compose import TransformedTargetRegressor
 from sklearn.preprocessing import QuantileTransformer
 import time
 
-#train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, labels_al, test_size=0.0, random_state=42)
+train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, labels_al, test_size=0.33, random_state=42)
 
-train_x_al = np.array(features_al)
-train_y_al = np.array(labels_al)
+#train_x_al = np.array(features_al)
+#train_y_al = np.array(labels_al)
 
 #%% CV: Cross Val Score
-n_cv = int(7);
+n_cv = int(10);
 
 scores_al_dt = [];
 scores_al_dt_mae = [];
@@ -151,11 +141,11 @@ scores_al_ls_mape = [];
 importance_fields_al_dt = 0.0;
 importance_fields_aux_al_dt = [];
 
-#importance_fields_al_rf = 0.0
-#importance_fields_aux_al_rf = []
+importance_fields_al_rf = 0.0
+importance_fields_aux_al_rf = []
 
-#importance_fields_al_ls = 0.0
-#importance_fields_aux_al_ls = []
+importance_fields_al_ls = 0.0
+importance_fields_aux_al_ls = []
 
 #%% Árvore de decisão
 
@@ -183,7 +173,7 @@ seconds_transform(sec_rf_al_cv)
 
 #%% LASSO
 
-ls_al = linear_model.Lasso(alpha=0.005)
+ls_al = linear_model.Lasso(alpha=0.005, positive=True)
 
 time_ls_al_cv = time.time()
 accuracy_ls_cv = cross_val_score(ls_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
@@ -211,7 +201,6 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     test_labels_al = train_y_al[test_index_al]
     
     # Ajustando cada features e label com RF e DT
-    #rf_al.fit(train_features_al, train_labels_al)
     
     # Método 1 - Árvore de decisão
     
@@ -221,11 +210,9 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     accuracy_dt = dt_al.score(test_features_al, test_labels_al)
 
-    accuracy_r2 = r2_score(test_labels_al, predictions_al_dt)
-
-    accuracy_mae = mean_absolute_error(test_labels_al, predictions_al_dt)
+    accuracy_mae_al_dt = mean_absolute_error(test_labels_al, predictions_al_dt)
     
-    accuracy_mse = mean_squared_error(test_labels_al, predictions_al_dt)
+    accuracy_mse_al_dt = mean_squared_error(test_labels_al, predictions_al_dt)
     
     
     
@@ -233,6 +220,16 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     importance_fields_al_dt += importance_fields_aux_al_dt
     
     # Método 2 - Random Forest
+    
+    rf_al.fit(train_features_al, train_labels_al)
+    
+    predictions_al_rf = dt_al.predict(test_features_al)
+    
+    accuracy_rf = rf_al.score(test_features_al, test_labels_al)
+
+    accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
+    
+    accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
     
     # Método 3 - Lasso Regression
     
@@ -266,10 +263,10 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     # Append em cada valor médio
     #scores_al_rf.append(accuracy_al_rf)
-    scores_al_dt.append(accuracy_dt)
+    #scores_al_dt.append(accuracy_al_dt)
     #scores_al_dt_r2.append(accuracy_r2)
-    scores_al_dt_mae.append(accuracy_mae)
-    scores_al_dt_mse.append(accuracy_mse)
+    #scores_al_dt_mae.append(accuracy_mae)
+    #scores_al_dt_mse.append(accuracy_mse)
     #scores_al_dt_mape.append(accuracy_mape)
     #scores_al_ls.append(accuracy_al_ls)
 
@@ -302,8 +299,6 @@ scores_al_dt_mape_f = [];
 predictions_al_dt = dt_al.predict(test_x_al)
     
 accuracy_dt_f = dt_al.score(test_x_al, test_y_al)
-
-accuracy_r2_f = r2_score(test_y_al, predictions_al_dt)
 
 accuracy_mae_f = mean_absolute_error(test_y_al, predictions_al_dt)
     

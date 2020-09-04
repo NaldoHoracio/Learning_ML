@@ -14,112 +14,86 @@ import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
 
-# Leitura
-path_br2014 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2014.csv';
-path_br2015 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2015.csv';
-path_br2016 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2016.csv';
-path_br2017 = 'C:/Users/edvon/Google Drive/UFAL/TCC/CODES/tcc_codes/read_csv_files/BR_data.csv';
-path_br2018 = 'C:/Users/edvon/Google Drive/UFAL/TCC/OutrosDados/BR_2018.csv';
 
-
-data_br2014 = pd.read_csv(path_br2014)
-data_br2015 = pd.read_csv(path_br2015)
-data_br2016 = pd.read_csv(path_br2016)
-data_br2017 = pd.read_csv(path_br2017)
-data_br2018 = pd.read_csv(path_br2018)
+data_br2014 = pd.read_csv(r'data/BR_2014.csv')
+data_br2015 = pd.read_csv(r'data/BR_2015.csv')
+data_br2016 = pd.read_csv(r'data/BR_2016.csv')
+data_br2017 = pd.read_csv(r'data/BR_2017.csv')
+data_br2018 = pd.read_csv(r'data/BR_2018.csv')
 
 
 #%% LIMPANDO
 
 #% 2.1 - Limpeza
+def pre_processing_set_br(data_br2014, data_br2015, data_br2016, data_br2017, data_br2018):
+    del data_br2014['Unnamed: 0']
+    del data_br2015['Unnamed: 0']
+    del data_br2016['Unnamed: 0']
+    del data_br2017['Unnamed: 0']
+    del data_br2018['Unnamed: 0']
 
-del data_br2014['Unnamed: 0']
-del data_br2015['Unnamed: 0']
-del data_br2016['Unnamed: 0']
-del data_br2017['Unnamed: 0']
-del data_br2018['Unnamed: 0']
+    # Escolhendo apenas as colunas de interesse
+    data_br2014 = data_br2014.loc[:,'NT_GER':'QE_I26']
+    data_br2015 = data_br2015.loc[:,'NT_GER':'QE_I26']
+    data_br2016 = data_br2016.loc[:,'NT_GER':'QE_I26']
+    data_br2017 = data_br2017.loc[:,'NT_GER':'QE_I26']
+    data_br2018 = data_br2018.loc[:,'NT_GER':'QE_I26']
 
-# Escolhendo apenas as colunas de interesse
-data_br2014 = data_br2014.loc[:,'NT_GER':'QE_I26']
-data_br2015 = data_br2015.loc[:,'NT_GER':'QE_I26']
-data_br2016 = data_br2016.loc[:,'NT_GER':'QE_I26']
-data_br2017 = data_br2017.loc[:,'NT_GER':'QE_I26']
-data_br2018 = data_br2018.loc[:,'NT_GER':'QE_I26']
+    data_br2014 = data_br2014.drop(data_br2014.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+    data_br2015 = data_br2015.drop(data_br2015.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+    data_br2016 = data_br2016.drop(data_br2016.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+    data_br2017 = data_br2017.drop(data_br2017.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+    data_br2018 = data_br2018.drop(data_br2018.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
 
-data_br2014 = data_br2014.drop(data_br2014.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_br2015 = data_br2015.drop(data_br2015.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_br2016 = data_br2016.drop(data_br2016.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_br2017 = data_br2017.drop(data_br2017.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
-data_br2018 = data_br2018.drop(data_br2018.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
+    data_br2014 = data_br2014.drop(data_br2014.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+    data_br2015 = data_br2015.drop(data_br2015.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+    data_br2016 = data_br2016.drop(data_br2016.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+    data_br2017 = data_br2017.drop(data_br2017.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+    data_br2018 = data_br2018.drop(data_br2018.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
+    
+    # MERGE NOS DADOS: data br
+    frames = [data_br2014, data_br2015, data_br2016, data_br2017, data_br2018];
+    data_br = pd.concat(frames);
+    
+    # Enriquecimento
+    data_br['NT_GER'] = data_br['NT_GER'].str.replace(',','.')
+    data_br['NT_GER'] = data_br['NT_GER'].astype(float)
 
-data_br2014 = data_br2014.drop(data_br2014.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_br2015 = data_br2015.drop(data_br2015.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_br2016 = data_br2016.drop(data_br2016.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_br2017 = data_br2017.drop(data_br2017.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-data_br2018 = data_br2018.drop(data_br2018.loc[:, 'NT_FG':'NT_CE_D3'].columns, axis=1)
-
-#%% MERGE NOS DADOS: data br
-# Observando os dados
-#print('O formato dos dados é: ', features_br.shape)
-
-#describe_br = features_br.describe()
-
-#print('Descrição para as colunas: ', describe_br)
-#print(describe_br.columns)
-frames = [data_br2014, data_br2015, data_br2016, data_br2017, data_br2018];
-data_br = pd.concat(frames);
-
-#%% AJUSTANDO
-
-# Números que são strings para float
-# Colunas NT_GER a NT_DIS_FG ^ NT_CE a NT_DIS_CE
-data_br['NT_GER'] = data_br['NT_GER'].str.replace(',','.')
-data_br['NT_GER'] = data_br['NT_GER'].astype(float)
-
-data_br_media = round(data_br['NT_GER'].mean(),2)
-
-#%% AJUSTE
-#data_br.iloc[:,0:16] = data_br.iloc[:,0:16].fillna(data_br.iloc[:,0:16].mean())
-data_br['NT_GER'] = data_br['NT_GER'].fillna(data_br_media)
-data_br['NT_GER'] = data_br['NT_GER'].replace([0],data_br_media)
-# Observando os dados
-#print('O formato dos dados é: ', features_br.shape)
-
-describe_br = data_br.describe()
-
-#% 3 - Transformação
-
-# Convertendo os labels de predição para arrays numpy
-labels_br = np.array(data_br['NT_GER'])
-
-# Removendo as features de notas
-data_br = data_br.drop(['NT_GER'], axis = 1)
-'''
-data_br = data_br.drop(['NT_GER','NT_FG','NT_OBJ_FG','NT_DIS_FG',
-                               'NT_FG_D1','NT_FG_D1_PT','NT_FG_D1_CT',
-                               'NT_FG_D2','NT_FG_D2_PT','NT_FG_D2_CT',
-                               'NT_CE','NT_OBJ_CE','NT_DIS_CE',
-                               'NT_CE_D1','NT_CE_D2','NT_CE_D3'], axis = 1)
-'''
-# Sbrvando e convertendo
-# Sbrvando os nomes das colunas (features) com os dados para uso posterior antes de codificar
-features_br_list = list(data_br.columns)
-
-
-# One hot encoding - QE_I01 a QE_I26
-features_br = pd.get_dummies(data=data_br, columns=['QE_I01','QE_I02','QE_I03','QE_I04',
+    data_br_media = round(data_br['NT_GER'].mean(),2)
+    data_br['NT_GER'] = data_br['NT_GER'].fillna(data_br_media)
+    #data_br['NT_GER'] = data_br['NT_GER'].replace([0],data_br_media)
+    
+    describe_br = data_br.describe()
+    
+    # 3 - Transformação
+    labels_br = np.array(data_br['NT_GER'])
+    
+    data_br = data_br.drop(['NT_GER'], axis = 1)# Removendo as features de notas
+    
+    features_br_list = list(data_br.columns)
+    
+    # One hot encoding - QE_I01 a QE_I26
+    features_br = pd.get_dummies(data=data_br, columns=['QE_I01','QE_I02','QE_I03','QE_I04',
                                                         'QE_I05','QE_I06','QE_I07','QE_I08',
                                                         'QE_I09','QE_I10','QE_I11','QE_I12',
                                                         'QE_I13','QE_I14','QE_I15','QE_I16',
                                                         'QE_I17','QE_I18','QE_I19','QE_I20',
                                                         'QE_I21','QE_I22','QE_I23','QE_I24',
                                                         'QE_I25','QE_I26'])
-# Sbrvando os nomes das colunas (features) com os dados para uso posterior
-# depois de codificar
-features_br_list_oh = list(features_br.columns)
-#
-# Convertendo para numpy
-features_br = np.array(features_br)
+    # Salvando os nomes das colunas (features) com os dados para uso posterior
+    # depois de codificar
+    features_br_list_oh = list(features_br.columns)
+    
+    #
+    # Convertendo para numpy
+    features_br = np.array(features_br)
+    
+    return features_br, labels_br, features_br_list_oh
+
+
+#%% Aplicando o pré-processamento
+    
+features_br, labels_br, features_br_list_oh = pre_processing_set_br(data_br2014, data_br2015, data_br2016, data_br2017, data_br2018)
 
 #%% TEMPO E AJUSTE
 # Tempo de execução
