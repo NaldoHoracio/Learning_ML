@@ -113,6 +113,7 @@ from sklearn import linear_model
 from sklearn.model_selection import cross_val_score
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.preprocessing import QuantileTransformer
+from sklearn.model_selection import GridSearchCV
 import time
 
 train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, labels_al, test_size=0.33, random_state=42)
@@ -121,7 +122,7 @@ train_x_al, test_x_al, train_y_al, test_y_al = train_test_split(features_al, lab
 #train_y_al = np.array(labels_al)
 
 #%% CV: Cross Val Score
-n_cv = int(10);
+n_cv = int(5);
 
 scores_al_dt = [];
 scores_al_dt_mae = [];
@@ -161,14 +162,17 @@ seconds_transform(sec_dt_al_cv)
 
 #%% Floresta aleatória
 
-rf_al = RandomForestRegressor(n_estimators=1000, random_state=42)
+rf_al = RandomForestRegressor(n_estimators=1000, min_samples_split=40, min_samples_leaf=20, random_state=42)
 
 time_rf_al_cv = time.time()
 accuracy_rf_cv = cross_val_score(rf_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
+#accuracy_rf_cv = GridSearchCV(rf_al, param_grid=param_grid, cv=n_cv)
+#grid_rf_al.fit(train_x_al, train_y_al)
 #
 sec_rf_al_cv = (time.time() - time_rf_al_cv)
 
-print('Accuracy RF CV: ', round(np.mean(accuracy_rf_cv), 4))
+#print("Best parameters: ", grid_rf_al)
+#print('Accuracy RF CV: ', round(np.mean(accuracy_rf_cv), 4))
 seconds_transform(sec_rf_al_cv)
 
 #%% LASSO
