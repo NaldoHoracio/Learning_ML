@@ -101,7 +101,8 @@ def seconds_transform(seconds_time):
   minutes = int(rest_1/60)
   seconds = rest_1 - 60*minutes
   #print(seconds)
-  print("Time: ", (hours), "h ", (minutes), "min ", round(seconds,2), " s")
+  print(" ", (hours), "h ", (minutes), "min ", round(seconds,2), " s")
+  return hours, minutes, round(seconds,2)
 
 #%% BIBLIOTECAS
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
@@ -129,7 +130,7 @@ scores_al_dt_mae = [];
 scores_al_dt_mse = [];
 #scores_al_dt_mape = [];
 
-scores_al_fr = [];
+scores_al_rf = [];
 scores_al_rf_mae = [];
 scores_al_rf_mse = [];
 #scores_al_rf_mape = [];
@@ -160,8 +161,27 @@ sec_dt_al_cv = (time.time() - time_dt_al_cv) # Time end DT CV
 print('Accuracy DT CV: ', round(np.mean(accuracy_dt_cv), 4))
 seconds_transform(sec_dt_al_cv)
 
+#%% Escrevendo em Arquivo - DT
+fields_al_dt = ['Método', 'Split', 'Leaf', 'Acc', 'Acc médio', 'Tempo (h,min,s)']
+
+rows_al_dt = [['DT','320', '200', accuracy_dt_cv, accuracy_dt_cv.mean(),
+              seconds_transform(sec_dt_al_cv)]]
+
+file_al_dt = "DT.csv"
+
+with open(file_al_dt, 'a') as csvfile:
+    # creating a csv writer object  
+    csv_al_dt = csv.writer(csvfile)  
+        
+    # writing the fields  
+    csv_al_dt.writerow(fields_al_dt)  
+        
+    # writing the data rows  
+    csv_al_dt.writerows(rows_al_dt) 
+
 #%% Floresta aleatória
 
+# min_samples_split=40, min_samples_leaf=20
 rf_al = RandomForestRegressor(n_estimators=1000, min_samples_split=40, min_samples_leaf=20, random_state=42)
 
 time_rf_al_cv = time.time()
@@ -172,8 +192,27 @@ accuracy_rf_cv = cross_val_score(rf_al, train_x_al, train_y_al, cv=n_cv, scoring
 sec_rf_al_cv = (time.time() - time_rf_al_cv)
 
 #print("Best parameters: ", grid_rf_al)
-#print('Accuracy RF CV: ', round(np.mean(accuracy_rf_cv), 4))
+print('Accuracy RF CV: ', round(np.mean(accuracy_rf_cv), 4))
 seconds_transform(sec_rf_al_cv)
+
+#%% Escrevendo em Arquivo - RF
+fields_al_rf = ['Método', 'N_tree', 'Split', 'Leaf', 'Acc', 'Acc médio', 'Tempo (h,min,s)']
+
+rows_al_rf = [['RF','10', '40', '20',  
+              accuracy_rf_cv, accuracy_rf_cv.mean(),
+              seconds_transform(sec_rf_al_cv)]]
+
+file_al_rf = "RF.csv"
+
+with open(file_al_rf, 'a') as csvfile:
+    # creating a csv writer object  
+    csvwriter = csv.writer(csvfile)  
+        
+    # writing the fields  
+    csvwriter.writerow(fields_al_rf)  
+        
+    # writing the data rows  
+    csvwriter.writerows(rows_al_rf) 
 
 #%% LASSO
 
@@ -186,7 +225,23 @@ sec_ls_al_cv = (time.time() - time_ls_al_cv)
 print('Accuracy LS CV: ', round(np.mean(accuracy_ls_cv), 4))
 seconds_transform(sec_ls_al_cv)
 
+#%% Escrevendo arquivo - LS
+fields_al_ls = ['Método', 'Alfa', 'Acc','Acc médio', 'Tempo (h,min,s)']
 
+rows_al_ls = [['LS','0.005', accuracy_ls_cv, accuracy_ls_cv.mean(),
+              seconds_transform(sec_ls_al_cv)]]
+
+file_al_ls = "LS.csv"
+
+with open(file_al_ls, 'a') as csvfile:
+    # creating a csv writer object  
+    csv_al_ls = csv.writer(csvfile)  
+        
+    # writing the fields  
+    csv_al_ls.writerow(fields_al_ls)  
+        
+    # writing the data rows  
+    csv_al_ls.writerows(rows_al_ls) 
 
 #%% Treino dos dados - DT_AL
 
@@ -218,61 +273,15 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     accuracy_mse_al_dt = mean_squared_error(test_labels_al, predictions_al_dt)
     
-    
-    
+    # Importância de variável
     importance_fields_aux_al_dt = dt_al.feature_importances_
     importance_fields_al_dt += importance_fields_aux_al_dt
     
-    # Método 2 - Random Forest
-    
-    #rf_al.fit(train_features_al, train_labels_al)
-    
-    #predictions_al_rf = dt_al.predict(test_features_al)
-    
-    #accuracy_rf_al = rf_al.score(test_features_al, test_labels_al)
-
-    #accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
-    
-    #accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
-    
-    # Método 3 - Lasso Regression
-    
-    #lasso_al.fit(train_features_al, train_labels_al)
-    
-    # Usando o RF e DT para predição dos dados
-    #predictions_al_rf = rf_al.predict(test_features_al)
-    #predictions_al_ls = lasso_al.predict(test_features_al)
-
-    # Erro
-    #errors_al_rf = abs(predictions_al_rf - test_labels_al)
-    #errors_al_dt = abs(predictions_al_dt - test_labels_al)
-    #errors_al_ls = abs(predictions_al_ls - test_labels_al)
-    
-    # Acurácia
-    #accuracy_al_rf = 100 - mean_absolute_error(test_labels_al, predictions_al_rf)
-    #accuracy_al_dt = 100 - mean_absolute_error(test_labels_al, predictions_al_dt)
-    #accuracy_al_ls = 100 - mean_absolute_error(test_labels_al, predictions_al_ls)
-    
-
-    #accuracy_mape = ((abs(test_labels_al - predictions_al_dt)/test_labels_al) * 100)
-    
-    # Importância das variáveis
-    #importance_fields_aux_al_rf = rf_al.feature_importances_
-    #importance_fields_al_rf += importance_fields_aux_al_rf
-    
-    
-    
-    #importance_fields_aux_al_ls = lasso_al.coef_
-    #importance_fields_al_ls += importance_fields_aux_al_ls
-    
     # Append em cada valor médio
-    #scores_al_rf.append(accuracy_al_rf)
     scores_al_dt.append(accuracy_al_dt)
-    #scores_al_dt_r2.append(accuracy_r2)
+    
     scores_al_dt_mae.append(accuracy_mae_al_dt)
     scores_al_dt_mse.append(accuracy_mse_al_dt)
-    #scores_al_dt_mape.append(accuracy_mape)
-    #scores_al_ls.append(accuracy_al_ls)
 
 sec_dt_al = (time.time() - time_dt_al) # Time end dt loop
 
@@ -281,15 +290,105 @@ print("")
 seconds_transform(sec_dt_al)
 #print("Error: ", round(error_al,2))
 
+#%% Treino dos dados - RF_AL
+time_rf_al = time.time() # Time start dt loop
+
+for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
+    #print("Train index: ", np.min(train_index_al), '- ', np.max(train_index_al))
+    print("Test index: ", np.min(test_index_al), '-', np.max(test_index_al))
+    
+    # Dividindo nas features e labels
+    train_features_al = train_x_al[train_index_al]
+    test_features_al = train_x_al[test_index_al]
+    train_labels_al = train_y_al[train_index_al]
+    test_labels_al = train_y_al[test_index_al]
+    
+    # Método 2 - Random Forest
+    
+    rf_al.fit(train_features_al, train_labels_al)
+    
+    predictions_al_rf = rf_al.predict(test_features_al)
+    
+    accuracy_al_rf = rf_al.score(test_features_al, test_labels_al)
+
+    accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
+    
+    accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
+     
+    # Importância de variável
+    importance_fields_aux_al_rf = rf_al.feature_importances_
+    importance_fields_al_rf += importance_fields_aux_al_rf
+    
+    # Append em cada valor médio
+    scores_al_rf.append(accuracy_al_rf)
+    
+    scores_al_rf_mae.append(accuracy_mae_al_rf)
+    
+    scores_al_rf_mse.append(accuracy_mse_al_rf)
+
+sec_rf_al = (time.time() - time_rf_al) # Time end dt loop
+
+seconds_transform(sec_rf_al_cv)
+print("")
+seconds_transform(sec_rf_al)
+
+#%% Treino dos dados - LS_AL
+time_ls_al = time.time() # Time start dt loop
+
+for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
+    #print("Train index: ", np.min(train_index_al), '- ', np.max(train_index_al))
+    print("Test index: ", np.min(test_index_al), '-', np.max(test_index_al))
+    
+    # Dividindo nas features e labels
+    train_features_al = train_x_al[train_index_al]
+    test_features_al = train_x_al[test_index_al]
+    train_labels_al = train_y_al[train_index_al]
+    test_labels_al = train_y_al[test_index_al]
+    
+    
+    # Método 3 - Lasso
+    
+    ls_al.fit(train_features_al, train_labels_al)
+    
+    predictions_al_ls = ls_al.predict(test_features_al)
+    
+    accuracy_al_ls = ls_al.score(test_features_al, test_labels_al)
+
+    accuracy_mae_al_ls = mean_absolute_error(test_labels_al, predictions_al_dt)
+    
+    accuracy_mse_al_ls = mean_squared_error(test_labels_al, predictions_al_dt)    
+    
+    # Importância das variáveis
+    importance_fields_aux_al_ls = ls_al.coef_
+    importance_fields_al_ls += importance_fields_aux_al_ls
+    
+    # Append em cada valor médio
+    scores_al_ls.append(accuracy_al_ls)
+    
+    scores_al_ls_mae.append(accuracy_mae_al_ls)
+    
+    scores_al_ls_mse.append(accuracy_mse_al_ls)
+
+sec_ls_al = (time.time() - time_ls_al) # Time end dt loop
+
+seconds_transform(sec_ls_al_cv)
+print("")
+seconds_transform(sec_ls_al)
+
+
 #%% ACURÁCIA AL
-#print('Accuracy RF: ', round(np.average(scores_al_rf), 2), "%.")
+print("1 - Decision Tree")
 print('Accuracy AL DT: ', round(np.mean(scores_al_dt), 4))
-#print('Accuracy CV: ', round(np.mean(accuracy_cv), 4))
-#print('Accuracy R2: ', round(np.mean(accuracy_r2), 4))
 print('Accuracy MAE AL DT: ', round(np.mean(accuracy_mae_al_dt), 4))
 print('Accuracy MSE AL DT: ', round(np.mean(accuracy_mse_al_dt), 4))
-#print('Accuracy MAPE: ', round(np.mean(accuracy_mape.mean()), 4))
-#print("Parameters: ", dt_al.get_params())
+print("2 - Random Forest")
+print('Accuracy AL RF: ', round(np.mean(scores_al_rf), 4))
+print('Accuracy MAE AL RF: ', round(np.mean(accuracy_mae_al_rf), 4))
+print('Accuracy MSE AL RF: ', round(np.mean(accuracy_mse_al_rf), 4))
+print("3 - Lasso")
+print('Accuracy AL LS: ', round(np.mean(scores_al_ls), 4))
+print('Accuracy MAE AL LS: ', round(np.mean(accuracy_mae_al_ls), 4))
+print('Accuracy MSE AL LS: ', round(np.mean(accuracy_mse_al_ls), 4))
 
 #%% Testando o modelo
 scores_al_dt_f = [];
