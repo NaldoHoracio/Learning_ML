@@ -138,7 +138,6 @@ scores_al_rf_mse = [];
 scores_al_ls = [];
 scores_al_ls_mae = [];
 scores_al_ls_mse = [];
-scores_al_ls_mape = [];
 
 importance_fields_al_dt = 0.0;
 importance_fields_aux_al_dt = [];
@@ -198,9 +197,8 @@ seconds_transform(sec_rf_al_cv)
 #%% Escrevendo em Arquivo - RF
 fields_al_rf = ['Método', 'N_tree', 'Split', 'Leaf', 'Acc', 'Acc médio', 'Tempo (h,min,s)']
 
-rows_al_rf = [['RF','10', '40', '20',  
-              accuracy_rf_cv, accuracy_rf_cv.mean(),
-              seconds_transform(sec_rf_al_cv)]]
+rows_al_rf = [['RF','10', '40', '20', accuracy_rf_cv, 
+               accuracy_rf_cv.mean(), seconds_transform(sec_rf_al_cv)]]
 
 file_al_rf = "RF.csv"
 
@@ -245,6 +243,8 @@ with open(file_al_ls, 'a') as csvfile:
 
 #%% Treino dos dados - DT_AL
 
+dt_al = DecisionTreeRegressor(min_samples_split=320, min_samples_leaf=200, random_state=42)
+
 kf_cv_al = KFold(n_splits=n_cv, random_state=42, shuffle=True)
 
 time_dt_al = time.time() # Time start dt loop
@@ -281,16 +281,19 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     scores_al_dt.append(accuracy_al_dt)
     
     scores_al_dt_mae.append(accuracy_mae_al_dt)
+    
     scores_al_dt_mse.append(accuracy_mse_al_dt)
 
 sec_dt_al = (time.time() - time_dt_al) # Time end dt loop
 
-seconds_transform(sec_dt_al_cv)
-print("")
+#seconds_transform(sec_dt_al)
+#print("")
 seconds_transform(sec_dt_al)
-#print("Error: ", round(error_al,2))
 
 #%% Treino dos dados - RF_AL
+
+rf_al = RandomForestRegressor(n_estimators=1000, min_samples_split=40, min_samples_leaf=20, random_state=42)
+
 time_rf_al = time.time() # Time start dt loop
 
 for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
@@ -311,9 +314,9 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     accuracy_al_rf = rf_al.score(test_features_al, test_labels_al)
 
-    accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_dt)
+    accuracy_mae_al_rf = mean_absolute_error(test_labels_al, predictions_al_rf)
     
-    accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_dt)
+    accuracy_mse_al_rf = mean_squared_error(test_labels_al, predictions_al_rf)
      
     # Importância de variável
     importance_fields_aux_al_rf = rf_al.feature_importances_
@@ -328,11 +331,14 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
 
 sec_rf_al = (time.time() - time_rf_al) # Time end dt loop
 
-seconds_transform(sec_rf_al_cv)
-print("")
+#seconds_transform(sec_rf_al)
+#print("")
 seconds_transform(sec_rf_al)
 
 #%% Treino dos dados - LS_AL
+
+ls_al = linear_model.Lasso(alpha=0.005, positive=True, random_state=42)
+
 time_ls_al = time.time() # Time start dt loop
 
 for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
@@ -354,9 +360,9 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
     
     accuracy_al_ls = ls_al.score(test_features_al, test_labels_al)
 
-    accuracy_mae_al_ls = mean_absolute_error(test_labels_al, predictions_al_dt)
+    accuracy_mae_al_ls = mean_absolute_error(test_labels_al, predictions_al_ls)
     
-    accuracy_mse_al_ls = mean_squared_error(test_labels_al, predictions_al_dt)    
+    accuracy_mse_al_ls = mean_squared_error(test_labels_al, predictions_al_ls)    
     
     # Importância das variáveis
     importance_fields_aux_al_ls = ls_al.coef_
@@ -371,33 +377,30 @@ for train_index_al, test_index_al in kf_cv_al.split(train_x_al):
 
 sec_ls_al = (time.time() - time_ls_al) # Time end dt loop
 
-seconds_transform(sec_ls_al_cv)
-print("")
+#seconds_transform(sec_ls_al_cv)
+#print("")
 seconds_transform(sec_ls_al)
 
 
 #%% ACURÁCIA AL
 print("1 - Decision Tree")
 print('Accuracy AL DT: ', round(np.mean(scores_al_dt), 4))
-print('Accuracy MAE AL DT: ', round(np.mean(accuracy_mae_al_dt), 4))
-print('Accuracy MSE AL DT: ', round(np.mean(accuracy_mse_al_dt), 4))
+print('Accuracy MAE AL DT: ', round(np.mean(scores_al_dt_mae), 4))
+print('Accuracy MSE AL DT: ', round(np.mean(scores_al_dt_mse), 4))
 print("2 - Random Forest")
 print('Accuracy AL RF: ', round(np.mean(scores_al_rf), 4))
-print('Accuracy MAE AL RF: ', round(np.mean(accuracy_mae_al_rf), 4))
-print('Accuracy MSE AL RF: ', round(np.mean(accuracy_mse_al_rf), 4))
+print('Accuracy MAE AL RF: ', round(np.mean(scores_al_rf_mae), 4))
+print('Accuracy MSE AL RF: ', round(np.mean(scores_al_rf_mse), 4))
 print("3 - Lasso")
 print('Accuracy AL LS: ', round(np.mean(scores_al_ls), 4))
-print('Accuracy MAE AL LS: ', round(np.mean(accuracy_mae_al_ls), 4))
-print('Accuracy MSE AL LS: ', round(np.mean(accuracy_mse_al_ls), 4))
+print('Accuracy MAE AL LS: ', round(np.mean(scores_al_ls_mae), 4))
+print('Accuracy MSE AL LS: ', round(np.mean(scores_al_ls_mse), 4))
 
 #%% Testando o modelo
 scores_al_dt_f = [];
 scores_al_dt_r2_f = [];
 scores_al_dt_mae_f = [];
 scores_al_dt_mse_f = [];
-scores_al_dt_mape_f = [];
-
-#dt_al.fit(test_x_al, test_y_al)
     
 predictions_al_dt = dt_al.predict(test_x_al)
     
@@ -409,11 +412,10 @@ accuracy_mse_al_dt_f = mean_squared_error(test_y_al, predictions_al_dt)
     
 importance_fields_al_dt_t = importance_fields_al_dt/n_cv
 
-print('Total DT: ', round(np.sum(importance_fields_al_dt_t),2));
+print('Total VImp DT: ', round(np.sum(importance_fields_al_dt_t),2));
 
 #%% Avaliando o modelo
 print('Final Accuracy AL DT: ', round(accuracy_al_dt_f, 4))
-#print('Final Accuracy AL R2: ', round(accuracy_r2_f, 4))
 print('Final Accuracy MAE AL: ', round(accuracy_mae_al_dt_f, 4))
 print('Final Accuracy MSE AL: ', round(accuracy_mse_al_dt_f, 4))
 
