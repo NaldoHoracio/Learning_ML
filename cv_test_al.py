@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
+import time
 
 data_al2014 = pd.read_csv(r'data/AL_2014.csv')
 data_al2015 = pd.read_csv(r'data/AL_2015.csv')
