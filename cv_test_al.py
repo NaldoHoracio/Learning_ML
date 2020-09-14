@@ -162,7 +162,9 @@ seconds_transform(sec_dt_al_cv)
 
 #%% Floresta aleatória
 
-rf_al = RandomForestRegressor(n_estimators=1000, min_samples_split=40, min_samples_leaf=20, random_state=42)
+# min_samples_split=20; min_samples_leaf=10
+
+rf_al = RandomForestRegressor(n_estimators=1000, min_samples_split=20, min_samples_leaf=10, random_state=42)
 
 time_rf_al_cv = time.time()
 accuracy_rf_cv = cross_val_score(rf_al, train_x_al, train_y_al, cv=n_cv, scoring='r2')
