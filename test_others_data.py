@@ -10,7 +10,7 @@ Created on Fri Aug 14 10:49:27 2020
 import pandas as pd
 
 # Read in data as pandas dataframe and display first 5 rows
-features = pd.read_csv('C:/Users/edvon/Desktop/temps.csv')
+features = pd.read_csv(r'Desktop/temps.csv')
 #features.head(5)
 
 import datetime
@@ -62,32 +62,54 @@ print('Average baseline error: ', round(np.mean(baseline_errors), 2), 'degrees.'
 
 # Import the model we are using
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-n_cv = int(10)
+n_cv = int(5)
 
 # Instantiate model 
-dt = DecisionTreeRegressor(random_state=42)
+dt = DecisionTreeRegressor(random_state=42, min_samples_split=110, min_samples_leaf=100)
+
+rf = RandomForestRegressor(n_estimators=300)
+
+accuracy_cv_dt = cross_val_score(dt, train_features, train_labels, cv=n_cv)
+
+accuracy_cv_rf = cross_val_score(rf, train_features, train_labels, cv=n_cv)
+
+print("CV score DT: ", round(np.mean(accuracy_cv_dt),4))
+print("CV score RF: ", round(np.mean(accuracy_cv_rf),4))
+
+#%% Treino
 
 # Train the model on training data
 dt.fit(train_features, train_labels);
 
-accuracy_cv = cross_val_score(dt, train_features, train_labels, cv=n_cv)
+rf.fit(train_features, train_labels);
+
+#%% Teste
 
 # Use the forest's predict method on the test data
-predictions = dt.predict(test_features)
+predictions_dt = dt.predict(test_features)
+predictions_rf = rf.predict(test_features)
+
 
 # Calculate the absolute errors
-errors_mae = mean_absolute_error(test_labels, predictions)
-errors_mse = mean_squared_error(test_labels, predictions)
-arrors_r2 = r2_score(test_labels, predictions)
+errors_mae_dt = mean_absolute_error(test_labels, predictions_dt)
+errors_mse_dt = mean_squared_error(test_labels, predictions_dt)
+
+errors_mae_rf = mean_absolute_error(test_labels, predictions_rf)
+errors_mse_rf = mean_squared_error(test_labels, predictions_rf)
 
 accuracy_dt = dt.score(test_features, test_labels)
+accuracy_rf = rf.score(test_features, test_labels)
+
+#%% Scores
 
 # Print out the mean absolute error (mae)
-print('MAE:', round(np.mean(errors_mae), 2), 'degrees.')
-print('MSE:', round(np.mean(errors_mse), 2), 'degrees.')
-print('Accuracy DT:', round(np.mean(accuracy_dt), 2))
-print('Accuracy CV:', round(np.mean(accuracy_cv), 2))
-print('Accuracy R2:', round(np.mean(accuracy_dt), 2))
+print('MAE DT:', round(np.mean(errors_mae_dt), 2), 'degrees.')
+print('MAE RF:', round(np.mean(errors_mae_rf), 2), 'degrees.')
+print('MSE DT:', round(np.mean(errors_mse_dt), 2), 'degrees.')
+print('MSE RF:', round(np.mean(errors_mse_rf), 2), 'degrees.')
+print('Accuracy R2 DT:', round(np.mean(accuracy_dt), 2))
+print('Accuracy R2 RF:', round(np.mean(accuracy_rf), 2))
