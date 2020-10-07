@@ -76,13 +76,195 @@ def processing_set_al(data_al2014, data_al2015, data_al2016, data_al2017, data_a
     del data_al2016['Unnamed: 0']
     del data_al2017['Unnamed: 0']
     del data_al2018['Unnamed: 0']
+    
+    # QE_01
+    del data_al2014['QE_I01']
+    del data_al2015['QE_I01']
+    del data_al2016['QE_I01']
+    del data_al2017['QE_I01']
+    del data_al2018['QE_I01']
+    
+    # # QE_02
+    # del data_al2014['QE_I02']
+    # del data_al2015['QE_I02']
+    # del data_al2016['QE_I02']
+    # del data_al2017['QE_I02']
+    # del data_al2018['QE_I02']
+    
+    # QE_03
+    del data_al2014['QE_I03']
+    del data_al2015['QE_I03']
+    del data_al2016['QE_I03']
+    del data_al2017['QE_I03']
+    del data_al2018['QE_I03']   
+    
+    # QE_04
+    del data_al2014['QE_I04']
+    del data_al2015['QE_I04']
+    del data_al2016['QE_I04']
+    del data_al2017['QE_I04']
+    del data_al2018['QE_I04'] 
+    
+    # QE_05
+    del data_al2014['QE_I05']
+    del data_al2015['QE_I05']
+    del data_al2016['QE_I05']
+    del data_al2017['QE_I05']
+    del data_al2018['QE_I05'] 
+    
+    # QE_06
+    del data_al2014['QE_I06']
+    del data_al2015['QE_I06']
+    del data_al2016['QE_I06']
+    del data_al2017['QE_I06']
+    del data_al2018['QE_I06']
+    
+    # QE_07
+    del data_al2014['QE_I07']
+    del data_al2015['QE_I07']
+    del data_al2016['QE_I07']
+    del data_al2017['QE_I07']
+    del data_al2018['QE_I07']
+    
+    # QE_08
+    del data_al2014['QE_I08']
+    del data_al2015['QE_I08']
+    del data_al2016['QE_I08']
+    del data_al2017['QE_I08']
+    del data_al2018['QE_I08']
+    
+    # QE_09
+    del data_al2014['QE_I09']
+    del data_al2015['QE_I09']
+    del data_al2016['QE_I09']
+    del data_al2017['QE_I09']
+    del data_al2018['QE_I09']
+    
+    # QE_10
+    del data_al2014['QE_I10']
+    del data_al2015['QE_I10']
+    del data_al2016['QE_I10']
+    del data_al2017['QE_I10']
+    del data_al2018['QE_I10']
+    
+    # QE_11
+    del data_al2014['QE_I11']
+    del data_al2015['QE_I11']
+    del data_al2016['QE_I11']
+    del data_al2017['QE_I11']
+    del data_al2018['QE_I11']
+    
+    # QE_12
+    del data_al2014['QE_I12']
+    del data_al2015['QE_I12']
+    del data_al2016['QE_I12']
+    del data_al2017['QE_I12']
+    del data_al2018['QE_I12']
+    
+    # QE_13
+    del data_al2014['QE_I13']
+    del data_al2015['QE_I13']
+    del data_al2016['QE_I13']
+    del data_al2017['QE_I13']
+    del data_al2018['QE_I13']
+    
+    # QE_14
+    del data_al2014['QE_I14']
+    del data_al2015['QE_I14']
+    del data_al2016['QE_I14']
+    del data_al2017['QE_I14']
+    del data_al2018['QE_I14']
+    
+    # QE_15
+    del data_al2014['QE_I15']
+    del data_al2015['QE_I15']
+    del data_al2016['QE_I15']
+    del data_al2017['QE_I15']
+    del data_al2018['QE_I15']
+    
+    # QE_16
+    del data_al2014['QE_I16']
+    del data_al2015['QE_I16']
+    del data_al2016['QE_I16']
+    del data_al2017['QE_I16']
+    del data_al2018['QE_I16']
+    
+    # QE_17
+    del data_al2014['QE_I17']
+    del data_al2015['QE_I17']
+    del data_al2016['QE_I17']
+    del data_al2017['QE_I17']
+    del data_al2018['QE_I17']
+    
+    # QE_18
+    del data_al2014['QE_I18']
+    del data_al2015['QE_I18']
+    del data_al2016['QE_I18']
+    del data_al2017['QE_I18']
+    del data_al2018['QE_I18']
+    
+    # QE_19
+    del data_al2014['QE_I19']
+    del data_al2015['QE_I19']
+    del data_al2016['QE_I19']
+    del data_al2017['QE_I19']
+    del data_al2018['QE_I19']
+    
+    # QE_20
+    del data_al2014['QE_I20']
+    del data_al2015['QE_I20']
+    del data_al2016['QE_I20']
+    del data_al2017['QE_I20']
+    del data_al2018['QE_I20']
+    
+    # QE_21
+    del data_al2014['QE_I21']
+    del data_al2015['QE_I21']
+    del data_al2016['QE_I21']
+    del data_al2017['QE_I21']
+    del data_al2018['QE_I21']
+    
+    # QE_22
+    del data_al2014['QE_I22']
+    del data_al2015['QE_I22']
+    del data_al2016['QE_I22']
+    del data_al2017['QE_I22']
+    del data_al2018['QE_I22']
+    
+    # QE_23
+    del data_al2014['QE_I23']
+    del data_al2015['QE_I23']
+    del data_al2016['QE_I23']
+    del data_al2017['QE_I23']
+    del data_al2018['QE_I23']
+    
+    # QE_24
+    del data_al2014['QE_I24']
+    del data_al2015['QE_I24']
+    del data_al2016['QE_I24']
+    del data_al2017['QE_I24']
+    del data_al2018['QE_I24']
+    
+    # QE_25
+    del data_al2014['QE_I25']
+    del data_al2015['QE_I25']
+    del data_al2016['QE_I25']
+    del data_al2017['QE_I25']
+    del data_al2018['QE_I25']
+    
+    # QE_26
+    del data_al2014['QE_I26']
+    del data_al2015['QE_I26']
+    del data_al2016['QE_I26']
+    del data_al2017['QE_I26']
+    del data_al2018['QE_I26']
 
     # Escolhendo apenas as colunas de interesse
-    data_al2014 = data_al2014.loc[:,'NT_GER':'QE_I26']
-    data_al2015 = data_al2015.loc[:,'NT_GER':'QE_I26']
-    data_al2016 = data_al2016.loc[:,'NT_GER':'QE_I26']
-    data_al2017 = data_al2017.loc[:,'NT_GER':'QE_I26']
-    data_al2018 = data_al2018.loc[:,'NT_GER':'QE_I26']
+    data_al2014 = data_al2014.loc[:,'NT_GER':'QE_I02']
+    data_al2015 = data_al2015.loc[:,'NT_GER':'QE_I02']
+    data_al2016 = data_al2016.loc[:,'NT_GER':'QE_I02']
+    data_al2017 = data_al2017.loc[:,'NT_GER':'QE_I02']
+    data_al2018 = data_al2018.loc[:,'NT_GER':'QE_I02']
 
     data_al2014 = data_al2014.drop(data_al2014.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
     data_al2015 = data_al2015.drop(data_al2015.loc[:, 'CO_RS_I1':'CO_RS_I9'].columns, axis=1)
@@ -120,13 +302,8 @@ def processing_set_al(data_al2014, data_al2015, data_al2016, data_al2017, data_a
 
 
     # One hot encoding - QE_I01 a QE_I26
-    features_al = pd.get_dummies(data=data_al, columns=['QE_I01','QE_I02','QE_I03','QE_I04',
-                                                        'QE_I05','QE_I06','QE_I07','QE_I08',
-                                                        'QE_I09','QE_I10','QE_I11','QE_I12',
-                                                        'QE_I13','QE_I14','QE_I15','QE_I16',
-                                                        'QE_I17','QE_I18','QE_I19','QE_I20',
-                                                        'QE_I21','QE_I22','QE_I23','QE_I24',
-                                                        'QE_I25','QE_I26'])
+    features_al = pd.get_dummies(data=data_al, columns=['QE_I02'])
+                                                        
     # Salvando os nomes das colunas (features) com os dados para uso posterior
     # depois de codificar
     features_al_list_oh = list(features_al.columns)
@@ -174,7 +351,7 @@ rows_al_dt_cv = {'Version':0,'Metodo':'DT',
                  'Acc': accuracy_al_dt_cv, 'Acc medio': accuracy_al_dt_cv.mean(),
                  'Tempo (h,min,s)':seconds_transform(sec_dt_al_cv), 'n_cv':n_cv_al}
 
-file_al_dt_cv = "../Logs/CV/DT_CV_AL.csv"
+file_al_dt_cv = "../Learning_ML/Logs/CV/DT_CV_AL.csv"
 
 version_file(file_al_dt_cv, fields_al_dt_cv, rows_al_dt_cv)
 
@@ -200,7 +377,7 @@ rows_al_rf_cv = {'Version':0,'Metodo':'RF',
                   'Acc':accuracy_al_rf_cv, 'Acc medio':accuracy_al_rf_cv.mean(), 
                   'Tempo (h,min,s)':seconds_transform(sec_rf_al_cv), 'n_cv':n_cv}
 
-file_al_rf_cv = "../Logs/CV/RF_CV_AL.csv"
+file_al_rf_cv = "../Learning_ML/Logs/CV/RF_CV_AL.csv"
 
 version_file(file_al_rf_cv, fields_al_rf_cv, rows_al_rf_cv)
 
@@ -224,7 +401,7 @@ rows_al_ls_cv = {'Version':0,'Metodo':'LS',
                   'Tempo (h,min,s)':seconds_transform(sec_ls_al_cv), 
                   'n_cv':n_cv}
 
-file_al_ls_cv = "../Logs/CV/LS_CV_AL.csv"
+file_al_ls_cv = "../Learning_ML/Logs/CV/LS_CV_AL.csv"
 
 version_file(file_al_ls_cv, fields_al_ls_cv, rows_al_ls_cv)
 
@@ -403,7 +580,7 @@ fields_al_rf = ['Version','Metodo', 'R2', 'MAE', 'MSE', 'Tempo (h,min,s)']
 rows_al_rf = {'Version':0,'Metodo':'RF', 'R2':round(accuracy_al_rf_f,4), 'MAE':round(accuracy_mae_al_rf_f,4),
                'MSE':round(accuracy_mse_al_rf_f,4), 'Tempo (h,min,s)':seconds_transform(sec_rf_al)}
 
-file_al_rf = "../Logs/METRICS_EVALUATE/RF_AL.csv"
+file_al_rf = "../Learning_ML/Logs/METRICS_EVALUATE/RF_AL.csv"
 
 version_file(file_al_rf, fields_al_rf, rows_al_rf)
 
@@ -429,7 +606,7 @@ rows_al_dt = {'Version':0,'Metodo':'DT',
               'MSE':round(accuracy_mse_al_dt_f,4), 
               'Tempo (h,min,s)':seconds_transform(sec_dt_al)}
 
-file_al_dt = "../Logs/METRICS_EVALUATE/DT_AL.csv"
+file_al_dt = "../Learning_ML/Logs/METRICS_EVALUATE/DT_AL.csv"
 
 version_file(file_al_dt, fields_al_dt, rows_al_dt)
     
@@ -455,7 +632,7 @@ rows_al_ls = {'Version':0, 'Metodo':'LS',
               'MSE':round(accuracy_mse_al_ls_f,4), 
               'Tempo (h,min,s)':seconds_transform(sec_ls_al)}
 
-file_al_ls = "../Logs/METRICS_EVALUATE/LS_AL.csv"
+file_al_ls = "../Learning_ML/Logs/METRICS_EVALUATE/LS_AL.csv"
 
 version_file(file_al_ls, fields_al_ls, rows_al_ls)
 
@@ -1683,7 +1860,7 @@ plt.ylabel('Importância (%)');
 plt.xlabel('Variável (AL)');
 plt.title('Categorias QE_I01 a QE_I13');
 plt.legend();
-plt.savefig('IMGs/QE_I27a_AL_CP.png', dpi=450, bbox_inches='tight');
+plt.savefig('/Learning_ML/IMGs/QE_I27a_AL_CP.png', dpi=450, bbox_inches='tight');
 
 #%% Visualization of Variable Importances
 # QE_I27b
@@ -1731,7 +1908,7 @@ plt.ylabel('Importância (%)');
 plt.xlabel('Variável (AL)');
 plt.title('Categorias QE_I14 a QE_I26');
 plt.legend();
-plt.savefig('IMGs/QE_I27b_AL_CP.png', dpi=450, bbox_inches='tight');
+plt.savefig('Learning_ML/IMGs/QE_I27b_AL_CP.png', dpi=450, bbox_inches='tight');
 
 #%% Arquivo de registro AL DT
 fields_vimp_al_dt = ['Version','Metodo', 
@@ -1757,7 +1934,7 @@ rows_vimp_al_dt = {'Version':0,'Metodo':'DT_AL',
                    'I24_AL':round(np.sum(I24_AL_DT),6), 'I25_AL':round(np.sum(I25_AL_DT),6),
                    'I26_AL':round(np.sum(I26_AL_DT),6)}
 
-file_vimp_al_dt = "../Logs/VIMPS/VIMP_DT_AL.csv"
+file_vimp_al_dt = "../Learning_ML/Logs/VIMPS/VIMP_DT_AL.csv"
 
 version_file(file_vimp_al_dt, fields_vimp_al_dt, rows_vimp_al_dt)
 
